@@ -2,6 +2,7 @@
 import { amber, blue, grey, red } from '@mui/material/colors';
 
 export const colors = {
+  blue: blue[500],
   darkBlue: blue[800],
   error: red[500],
   secondary: amber[500],
