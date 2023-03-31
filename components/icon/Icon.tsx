@@ -25,6 +25,7 @@ const Icon = ({ color, icon, onClick, size }: IconPropsType): JSX.Element => {
     <I
       onClick={onClick}
       sx={{ color: colors[color], fontSize: iconSize[size] }}
+      {...(onClick && { cursor: 'pointer' })}
     />
   );
 };
