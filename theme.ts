@@ -32,6 +32,16 @@ export const fontSize = {
   xxxl: '32px',
 };
 
+export const iconSize = {
+  xs: 12,
+  sm: 14,
+  md: 16,
+  lg: 20,
+  xl: 24,
+  xxl: 28,
+  xxxl: 32,
+};
+
 export const borderRadius = {
   sm: '5px',
   md: '10px',
