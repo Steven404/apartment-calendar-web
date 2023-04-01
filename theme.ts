@@ -12,6 +12,13 @@ export const colors = {
   white: grey[100],
 };
 
+export const filters = {
+  error:
+    'invert(71%) sepia(90%) saturate(6240%) hue-rotate(338deg) brightness(95%) contrast(102%)',
+  darkBlue:
+    'invert(16%) sepia(91%) saturate(3175%) hue-rotate(203deg) brightness(109%) contrast(83%)',
+};
+
 export const spacing = {
   xs: '4px',
   sm: '8px',

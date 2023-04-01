@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { ControlPoint, Person } from '@mui/icons-material/';
+import {
+  ControlPoint,
+  DateRange,
+  NightsStay,
+  Person,
+} from '@mui/icons-material/';
 import { SvgIconTypeMap } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 
@@ -7,6 +12,8 @@ import { colors, iconSize } from '@/theme';
 
 const availableIcons = {
   ControlPoint,
+  DateRange,
+  NightsStay,
   Person,
 };
 
