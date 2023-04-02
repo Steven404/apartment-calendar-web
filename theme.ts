@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import { amber, blue, grey, red } from '@mui/material/colors';
+import { amber, blue, green, grey, red } from '@mui/material/colors';
 
 export const colors = {
   blue: blue[500],
@@ -10,6 +10,7 @@ export const colors = {
   textGrayDark: grey[800],
   textGrayLight: grey[300],
   white: grey[100],
+  green: green[700],
 };
 
 export const filters = {
@@ -54,6 +55,7 @@ export const borderRadius = {
   sm: '5px',
   md: '10px',
   lg: '15px',
+  xl: '20px',
 };
 
 export const commonWeights = {
