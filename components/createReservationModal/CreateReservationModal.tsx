@@ -43,6 +43,7 @@ const getUnavailableDates = (
   existingReservations.forEach((reservation) => {
     const reservationDates: Dayjs[] = [];
     // find for how many nights the reservation is for
+    // (check the days difference between the check in and check out date)
     const nightsStayed = dayjs(reservation.checkOut).diff(
       dayjs(reservation.checkIn),
       'day'
@@ -66,6 +67,7 @@ const getUnavailableDates = (
 
 const uploadReservation = async (reservation: ReservationType) => {
   const newReservation = reservation; // We're doing this to avoid no param reasign es lint rule
+  // make an ajax request to get a random email for the user
   await $.ajax({
     dataType: 'json',
     success(data) {
@@ -104,7 +106,8 @@ export const CreateReservationModal = ({
   const cancelReservation = (): void => {
     setNewReservationName('');
     setNewReservationCheckInDate('');
-    setNewReservationNights(0);
+    setNewReservationNights(1);
+    setReservationNameError('');
     onCloseRequest();
   };
 
