@@ -12,38 +12,39 @@ import {
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   alignItems?: 'flex-start' | 'center' | 'flex-end';
-  hasError: boolean;
+  error?: string;
   icon?: IconType;
   label?: string;
 };
 
 export const TextInput = ({
   alignItems = 'flex-start',
-  hasError,
+  error = '',
   icon,
   label,
   ...restProps
 }: InputProps) => {
   return (
-    <Wrapper alignItems={alignItems} hasError={hasError}>
+    <Wrapper alignItems={alignItems} hasError={Boolean(error)}>
       {label && (
         <Text align="left" weight={600} color="darkBlue">
           {label}
         </Text>
       )}
-      <InputWrapper hasError={hasError}>
+      <InputWrapper hasError={Boolean(error)}>
         {icon && (
           <>
             <IconStyled
-              color={hasError ? 'error' : 'darkBlue'}
+              color={error ? 'error' : 'darkBlue'}
               size="lg"
               icon={icon}
             />
-            <HorizontalLine hasError={hasError} />
+            <HorizontalLine hasError={Boolean(error)} />
           </>
         )}
         <TextInputStyled {...restProps} />
       </InputWrapper>
+      {error && <Text color="error">{error}</Text>}
     </Wrapper>
   );
 };
