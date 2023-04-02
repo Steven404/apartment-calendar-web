@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
+  compiler: {
     styledComponents: true,
   },
   reactStrictMode: true,
