@@ -26,6 +26,7 @@ export const InputWrapper = styled.div<{ hasError: boolean }>`
     ${(props) => (props.hasError ? colors.error : colors.darkBlue)};
   border-radius: ${borderRadius.md};
   height: 30px;
+  width: 250px;
 `;
 
 export const TextInputStyled = styled.input`
