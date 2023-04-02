@@ -1,29 +1,13 @@
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import { SxProps } from '@mui/material/styles';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 
+import { CreateReservationModal } from '@/components/createReservationModal/CreateReservationModal';
 import Icon from '@/components/icon/Icon';
-import { TextInput } from '@/components/textInput/TextInput';
 import { HeaderWrapper, PageWrapper } from '@/styles/home.styles';
 import { spacing } from '@/theme';
 
 import Text from '../components/text/Text';
 
-const modalBoxStyle: SxProps = {
-  alignItems: 'center',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  display: 'flex',
-  flexDirection: 'column',
-  left: '50%',
-  p: 4,
-  position: 'absolute' as const,
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-};
+export const CreateReservationModalVisibilityContext = createContext(false);
 
 const Home = () => {
   const [isReservationModalVisible, setIsReservationModalVisible] =
@@ -46,23 +30,14 @@ const Home = () => {
           size="xxxl"
           onClick={() => setIsReservationModalVisible(true)}
         />
-      </HeaderWrapper>
-      <Modal
-        open={isReservationModalVisible}
-        onClose={() => setIsReservationModalVisible(false)}
-      >
-        <Box sx={modalBoxStyle}>
-          <Text color="darkBlue" weight={800} size="lg">
-            Add reservation
-          </Text>
-          <TextInput
-            label="Name"
-            hasError={false}
-            placeholder="John Doe"
-            icon="Person"
+        <CreateReservationModalVisibilityContext.Provider
+          value={isReservationModalVisible}
+        >
+          <CreateReservationModal
+            onCloseRequest={() => setIsReservationModalVisible(false)}
           />
-        </Box>
-      </Modal>
+        </CreateReservationModalVisibilityContext.Provider>
+      </HeaderWrapper>
     </PageWrapper>
   );
 };
