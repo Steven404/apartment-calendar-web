@@ -1,10 +1,10 @@
+/* eslint-disable no-alert */
 import { Box, Modal } from '@mui/material';
 import { SxProps } from '@mui/material/styles';
 import dayjs, { Dayjs } from 'dayjs';
-import $ from 'jquery';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { regName } from '@/modules/common';
+import { regName, request } from '@/modules/common';
 import { CreateReservationModalVisibilityContext } from '@/pages';
 import { spacing } from '@/theme';
 import { ReservationType } from '@/types/ReservationTypes';
@@ -67,21 +67,14 @@ const getUnavailableDates = (
 
 const uploadReservation = async (reservation: ReservationType) => {
   const newReservation = reservation; // We're doing this to avoid no param reasign es lint rule
-  // make an ajax request to get a random email for the user
-  await $.ajax({
-    dataType: 'json',
-    success(data) {
-      newReservation.customerEmail = data.results[0].email;
-    },
-    url: 'https://randomuser.me/api/',
-  });
+  const data = await request('https://randomuser.me/api/');
+  newReservation.customerEmail = data?.results[0]?.email || '';
   const existingReservations: ReservationType[] = JSON.parse(
     localStorage.getItem('reservations') || '[]'
   ) as ReservationType[];
   existingReservations.push(newReservation);
   localStorage.setItem('reservations', JSON.stringify(existingReservations));
 
-  // eslint-disable-next-line no-alert
   window.alert('Your reservation has been added successfully!');
 };
 
