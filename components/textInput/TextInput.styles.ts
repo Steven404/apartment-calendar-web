@@ -9,6 +9,7 @@ export const Wrapper = styled.div<{
   hasError: boolean;
 }>`
   input[type='date']::-webkit-calendar-picker-indicator {
+    // TODO: delete this
     filter: ${(props) => (props.hasError ? filters.error : filters.darkBlue)};
     width: 20px;
     cursor: pointer;
