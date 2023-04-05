@@ -114,7 +114,11 @@ export const CreateReservationModal = ({
       setReservationNameError('Please enter a valid first name');
       hasError = true;
     }
-    if (newReservationNights > 15 || newReservationNights < 1) {
+    if (
+      newReservationNights > 15 ||
+      newReservationNights < 1 ||
+      !newReservationNights
+    ) {
       setReservationNightsError('Please pick a number between 1 and 15');
       hasError = true;
     }
