@@ -88,10 +88,14 @@ export const CreateReservationModal = ({
   const [newReservationCheckInDate, setNewReservationCheckInDate] =
     useState<string>('');
 
-  const [newReservationsNights, setNewReservationNights] = useState<number>(1);
+  const [newReservationNights, setNewReservationNights] = useState<number>(1);
 
   const [reservationNameError, setReservationNameError] = useState<
     '' | 'Please enter a valid first name'
+  >('');
+
+  const [reservationNightsError, setReservationNightsError] = useState<
+    '' | 'Please pick a number between 1 and 15'
   >('');
 
   const [unavailableDates, setUnavailableDates] = useState<Dayjs[]>([]);
@@ -105,14 +109,19 @@ export const CreateReservationModal = ({
   };
 
   const formHasErrors = (): boolean => {
+    let hasError = false;
     if (!regName.test(newReservationName)) {
       setReservationNameError('Please enter a valid first name');
-      return true;
+      hasError = true;
+    }
+    if (newReservationNights > 15 || newReservationNights < 1) {
+      setReservationNightsError('Please pick a number between 1 and 15');
+      hasError = true;
     }
     // if (checkIfDatesOverlapWithExistingReservations(existingReservations)) {
     //   return true;
     // }
-    return false;
+    return hasError;
   };
 
   useEffect(() => {
@@ -164,10 +173,14 @@ export const CreateReservationModal = ({
           icon="NightsStay"
           min={1}
           max={10}
-          onChange={(e) =>
-            setNewReservationNights(parseInt(e.target.value, 10))
-          }
-          value={newReservationsNights}
+          onChange={(e) => {
+            setNewReservationNights(parseInt(e.target.value, 10));
+            if (reservationNightsError) {
+              setReservationNightsError('');
+            }
+          }}
+          error={reservationNightsError}
+          value={newReservationNights}
         />
         <ButtonsWrapper>
           <Button
@@ -175,7 +188,7 @@ export const CreateReservationModal = ({
             onClick={() => {
               if (!formHasErrors()) {
                 const checkOutDate = dayjs(newReservationCheckInDate)
-                  .add(newReservationsNights, 'day')
+                  .add(newReservationNights, 'day')
                   .toISOString();
                 uploadReservation({
                   checkIn: newReservationCheckInDate,
