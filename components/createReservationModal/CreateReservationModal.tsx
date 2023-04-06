@@ -98,6 +98,10 @@ export const CreateReservationModal = ({
     '' | 'Please pick a number between 1 and 15'
   >('');
 
+  const [reservationDateError, setReservationDateError] = useState<
+    '' | 'Please pick a date'
+  >('');
+
   const [unavailableDates, setUnavailableDates] = useState<Dayjs[]>([]);
 
   const cancelReservation = (): void => {
@@ -122,14 +126,54 @@ export const CreateReservationModal = ({
       setReservationNightsError('Please pick a number between 1 and 15');
       hasError = true;
     }
+    if (!newReservationCheckInDate) {
+      setReservationDateError('Please pick a date');
+    }
     // if (checkIfDatesOverlapWithExistingReservations(existingReservations)) {
     //   return true;
     // }
     return hasError;
   };
 
+  const validateFormAndUploadReservation = () => {
+    if (!formHasErrors()) {
+      const checkOutDate = dayjs(newReservationCheckInDate)
+        .add(newReservationNights, 'day')
+        .toISOString();
+      uploadReservation({
+        checkIn: newReservationCheckInDate,
+        checkOut: checkOutDate,
+        customerFullName: newReservationName,
+      });
+      onCloseRequest();
+    }
+  };
+
+  const handleDateChange = (newDate: dayjs.Dayjs | null) => {
+    setNewReservationCheckInDate(newDate?.toISOString() || '');
+    setReservationDateError('');
+  };
+
+  const handleReservationNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNewReservationName(e.target.value);
+    if (reservationNameError && regName.test(e.target.value)) {
+      setReservationNameError('');
+    }
+  };
+
+  const handleNightsChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewReservationNights(parseInt(e.target.value, 10));
+    if (reservationNightsError) {
+      setReservationNightsError('');
+    }
+  };
+
   useEffect(() => {
-    setUnavailableDates(getUnavailableDates(existingReservations));
+    if (existingReservations.length) {
+      setUnavailableDates(getUnavailableDates(existingReservations));
+    }
   }, [existingReservations]);
 
   return (
@@ -151,25 +195,23 @@ export const CreateReservationModal = ({
           placeholder="John Doe"
           icon="Person"
           value={newReservationName}
-          onChange={(e) => {
-            setNewReservationName(e.target.value);
-            if (reservationNameError && regName.test(e.target.value)) {
-              setReservationNameError('');
-            }
-          }}
+          onChange={handleReservationNameChange}
         />
         <DatePicker
           isPhone={typeof window !== 'undefined' && window.innerWidth < 450}
           disablePast
-          onChange={(newDate) => {
-            setNewReservationCheckInDate(newDate?.toISOString() || '');
-          }}
+          onChange={handleDateChange}
           // disable the dates that are reserved
           shouldDisableDate={(date1) =>
-            unavailableDates.some((date2) => date1.isSame(date2))
+            unavailableDates?.some((date2) => date1.isSame(date2))
           }
           value={dayjs(newReservationCheckInDate)}
         />
+        {reservationNameError && (
+          <Text color="error" margin={`0 0 ${spacing.md} 0`}>
+            {reservationDateError}
+          </Text>
+        )}
         <TextInput
           alignItems="center"
           label="Nights (max 15)"
@@ -177,32 +219,12 @@ export const CreateReservationModal = ({
           icon="NightsStay"
           min={1}
           max={10}
-          onChange={(e) => {
-            setNewReservationNights(parseInt(e.target.value, 10));
-            if (reservationNightsError) {
-              setReservationNightsError('');
-            }
-          }}
+          onChange={handleNightsChanged}
           error={reservationNightsError}
           value={newReservationNights}
         />
         <ButtonsWrapper>
-          <Button
-            text="Accept"
-            onClick={() => {
-              if (!formHasErrors()) {
-                const checkOutDate = dayjs(newReservationCheckInDate)
-                  .add(newReservationNights, 'day')
-                  .toISOString();
-                uploadReservation({
-                  checkIn: newReservationCheckInDate,
-                  checkOut: checkOutDate,
-                  customerFullName: newReservationName,
-                });
-                onCloseRequest();
-              }
-            }}
-          />
+          <Button text="Accept" onClick={validateFormAndUploadReservation} />
           <Button kind="cancel" text="Cancel" onClick={cancelReservation} />
         </ButtonsWrapper>
       </Box>

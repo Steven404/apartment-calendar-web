@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { spacing } from '@/theme';
+
 import { IconType } from '../icon/Icon';
 import Text from '../text/Text';
 import {
@@ -16,6 +18,12 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   icon?: IconType;
   label?: string;
 };
+
+const alignItemsToTextAlight = {
+  center: 'center',
+  'flex-end': 'right',
+  'flex-start': 'left',
+} as const;
 
 export const TextInput = ({
   alignItems = 'flex-start',
@@ -44,7 +52,15 @@ export const TextInput = ({
         )}
         <TextInputStyled {...restProps} />
       </InputWrapper>
-      {error && <Text color="error">{error}</Text>}
+      {error && (
+        <Text
+          margin={`${spacing.sm} 0 0 0`}
+          align={alignItemsToTextAlight[alignItems]}
+          color="error"
+        >
+          {error}
+        </Text>
+      )}
     </Wrapper>
   );
 };
