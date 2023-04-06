@@ -9,9 +9,8 @@ const useReservations = (dependency: string | boolean | number) => {
   // In an application that got it's data from the backend, this would be the API call that got the existing reservations.
   useEffect(() => {
     let isDataFetched = false;
-    let apiCallDidRun = false;
-    if (typeof window !== undefined && !isDataFetched) {
-      apiCallDidRun = true;
+
+    if (!isDataFetched) {
       const reservations: ReservationType[] = JSON.parse(
         localStorage.getItem('reservations') || '[]'
       );
@@ -20,9 +19,7 @@ const useReservations = (dependency: string | boolean | number) => {
 
     // In a normal program with a real API call we would need a clean up function for performance reasons
     return () => {
-      if (apiCallDidRun) {
-        isDataFetched = true;
-      }
+      isDataFetched = true;
     };
   }, [dependency]);
 
