@@ -19,7 +19,9 @@ const Home = () => {
   const [isReservationModalVisible, setIsReservationModalVisible] =
     useState<boolean>(false);
 
-  const { existingReservations } = useReservations(isReservationModalVisible);
+  const { deleteReservation, reservations } = useReservations(
+    isReservationModalVisible
+  );
 
   return (
     <PageWrapper>
@@ -40,8 +42,9 @@ const Home = () => {
         />
       </HeaderWrapper>
       <ReservationsWrapper>
-        {existingReservations.map((reservation) => (
+        {reservations.map((reservation) => (
           <ReservationCard
+            onDelete={deleteReservation}
             key={reservation.checkIn}
             reservation={reservation}
           />
@@ -52,7 +55,7 @@ const Home = () => {
       >
         <CreateReservationModal
           onCloseRequest={() => setIsReservationModalVisible(false)}
-          existingReservations={existingReservations}
+          existingReservations={reservations}
         />
       </CreateReservationModalVisibilityContext.Provider>
     </PageWrapper>

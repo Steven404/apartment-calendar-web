@@ -14,10 +14,18 @@ import {
 } from './ReservationCard.styles';
 
 interface ReservationCardPropsType {
+  onDelete: (reservation: ReservationType) => void;
   reservation: ReservationType;
 }
 
-const ReservationCard = ({ reservation }: ReservationCardPropsType) => {
+const ReservationCard = ({
+  onDelete,
+  reservation,
+}: ReservationCardPropsType) => {
+  const handleDelete = () => {
+    onDelete(reservation);
+  };
+
   return (
     <Wrapper>
       <Info>
@@ -38,7 +46,12 @@ const ReservationCard = ({ reservation }: ReservationCardPropsType) => {
           {dayjs(reservation.checkOut).format('DD/MM/YYYY')}
         </Text>
       </Info>
-      <Icon color="textGrayDark" icon="ControlPoint" size="xl" />
+      <Icon
+        onClick={handleDelete}
+        color="textGrayDark"
+        icon="DeleteForever"
+        size="xl"
+      />
     </Wrapper>
   );
 };

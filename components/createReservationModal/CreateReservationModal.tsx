@@ -4,7 +4,8 @@ import { SxProps } from '@mui/material/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { regName, request } from '@/modules/common';
+import { regName } from '@/modules/common';
+import useReservations from '@/modules/useReservations';
 import { CreateReservationModalVisibilityContext } from '@/pages';
 import { spacing } from '@/theme';
 import { ReservationType } from '@/types/ReservationTypes';
@@ -65,19 +66,6 @@ const getUnavailableDates = (
 //   return true;
 // };
 
-const uploadReservation = async (reservation: ReservationType) => {
-  const newReservation = reservation; // We're doing this to avoid no param reasign es lint rule
-  const data = await request('https://randomuser.me/api/');
-  newReservation.customerEmail = data?.results[0]?.email || '';
-  const existingReservations: ReservationType[] = JSON.parse(
-    localStorage.getItem('reservations') || '[]'
-  ) as ReservationType[];
-  existingReservations.push(newReservation);
-  localStorage.setItem('reservations', JSON.stringify(existingReservations));
-
-  window.alert('Your reservation has been added successfully!');
-};
-
 export const CreateReservationModal = ({
   existingReservations,
   onCloseRequest,
@@ -103,6 +91,8 @@ export const CreateReservationModal = ({
   >('');
 
   const [unavailableDates, setUnavailableDates] = useState<Dayjs[]>([]);
+
+  const { uploadReservation } = useReservations();
 
   const cancelReservation = (): void => {
     setNewReservationName('');

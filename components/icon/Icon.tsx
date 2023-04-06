@@ -2,6 +2,7 @@
 import {
   ControlPoint,
   DateRange,
+  DeleteForever,
   NightsStay,
   Person,
 } from '@mui/icons-material/';
@@ -13,6 +14,7 @@ import { colors, iconSize } from '@/theme';
 const availableIcons = {
   ControlPoint,
   DateRange,
+  DeleteForever,
   NightsStay,
   Person,
 };
