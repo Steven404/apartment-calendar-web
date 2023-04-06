@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { spacing } from '@/theme';
 import { ReservationType } from '@/types/ReservationTypes';
 
 import Icon from '../icon/Icon';
@@ -30,21 +29,29 @@ const ReservationCard = ({
     <Wrapper>
       <Info>
         <Details>
-          <Text color="textGrayDark" weight={300}>
-            Customer full name:&nbsp;
-          </Text>
-          <Text weight={700} color="textGrayDark">
-            {reservation.customerFullName}
-          </Text>
+          <div>
+            <Text color="textGrayDark" weight={300}>
+              Customer full name:&nbsp;
+            </Text>
+            <Text weight={700} color="textGrayDark">
+              {reservation.customerFullName}
+            </Text>
+          </div>
+          <div>
+            <HorizontalLine />
+          </div>
         </Details>
-        <HorizontalLine />
-        <Text margin={`0 0 0 ${spacing.md}`} color="textGrayDark" weight={300}>
-          From - Until:&nbsp;
-        </Text>
-        <Text weight={700} color="textGrayDark">
-          {dayjs(reservation.checkIn).format('DD/MM/YYYY')}&nbsp;-&nbsp;
-          {dayjs(reservation.checkOut).format('DD/MM/YYYY')}
-        </Text>
+        <Details>
+          <div>
+            <Text color="textGrayDark" weight={300}>
+              From - Until:&nbsp;
+            </Text>
+            <Text weight={700} color="textGrayDark">
+              {dayjs(reservation.checkIn).format('DD/MM/YYYY')}&nbsp;-&nbsp;
+              {dayjs(reservation.checkOut).format('DD/MM/YYYY')}
+            </Text>
+          </div>
+        </Details>
       </Info>
       <Icon
         onClick={handleDelete}
