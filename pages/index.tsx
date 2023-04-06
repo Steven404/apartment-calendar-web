@@ -2,10 +2,14 @@ import { createContext, useState } from 'react';
 
 import { CreateReservationModal } from '@/components/createReservationModal/CreateReservationModal';
 import Icon from '@/components/icon/Icon';
+import ReservationCard from '@/components/reservationCard/ReservationCard';
 import useReservations from '@/modules/useReservations';
-import { HeaderWrapper, PageWrapper } from '@/styles/home.styles';
+import {
+  HeaderWrapper,
+  PageWrapper,
+  ReservationsWrapper,
+} from '@/styles/home.styles';
 import { spacing } from '@/theme';
-import { ReservationType } from '@/types/ReservationTypes';
 
 import Text from '../components/text/Text';
 
@@ -35,9 +39,14 @@ const Home = () => {
           onClick={() => setIsReservationModalVisible(true)}
         />
       </HeaderWrapper>
-      {/* {existingReservations.map(
-        (reservation: ReservationType) => reservation.customerFullName
-      )} */}
+      <ReservationsWrapper>
+        {existingReservations.map((reservation) => (
+          <ReservationCard
+            key={reservation.checkIn}
+            reservation={reservation}
+          />
+        ))}
+      </ReservationsWrapper>
       <CreateReservationModalVisibilityContext.Provider
         value={isReservationModalVisible}
       >
